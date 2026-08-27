@@ -1,0 +1,3 @@
+outreach_id,date,contact_id,company,channel,direction,type,app_id,status,next_action,next_action_date,summary
+OUT-001,2026-08-10,CON-001,ACME AI,linkedin,outbound,referral_ask,APP-001,awaiting_them,Gentle nudge if no reply,2026-08-15,FICTIONAL sample. Asked John Smith for a referral to the Applied AI Engineer intern role; offered resume plus a short blurb
+OUT-002,2026-08-13,CON-002,Initech,in_person,outbound,cold_outreach,APP-003,closed,,,FICTIONAL sample. Chatted with Mary Major at the career fair; she said to apply online and send the app ID

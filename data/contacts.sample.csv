@@ -1,0 +1,3 @@
+contact_id,name,company,title,relationship,linkedin,email,phone,other_handle,source,notes
+CON-001,John Smith,ACME AI,Senior Technical Recruiter,recruiter,https://linkedin.com/in/example-johnsmith,john.smith@example.com,,,Campus career fair,FICTIONAL sample contact; not a real person
+CON-002,Mary Major,Initech,University Recruiter,recruiter,https://linkedin.com/in/example-marymajor,mary.major@example.com,,,Campus fair booth,FICTIONAL sample contact; not a real person

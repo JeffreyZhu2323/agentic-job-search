@@ -1,0 +1,4 @@
+app_id,company,role_title,team,location,req_url,source,resume_variant,date_applied,status,priority,contact_id,next_action,next_action_date,notes
+APP-001,ACME AI,Applied AI Engineer Intern,Agents Platform,San Francisco CA,https://example.com/jobs/aai,referral,ai,2026-08-10,applied,dream,CON-001,Follow up if no reply,2026-08-20,FICTIONAL sample row; ACME AI is a placeholder company
+APP-002,Globex,Machine Learning Engineer Intern,Recommendations,Remote,https://example.com/jobs/mle,cold,mlds,,to_apply,high,,Tailor the mlds variant and submit,2026-08-16,FICTIONAL sample row; Globex is a placeholder company
+APP-003,Initech,Data Scientist Intern,Growth,New York NY,https://example.com/jobs/ds,career_fair,,,to_apply,mid,CON-002,Decide ai vs mlds framing,2026-08-18,FICTIONAL sample row; Initech is a placeholder company

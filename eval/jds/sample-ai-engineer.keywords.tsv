@@ -1,0 +1,11 @@
+Python	claimable	python
+LLMs	claimable	large language models;llm;language models
+RAG	claimable	retrieval-augmented generation;retrieval augmented;retrieval
+prompt engineering	claimable	prompting;prompt design
+LLM evals	claimable	evaluation;evals;eval harness;offline eval
+PyTorch	claimable	pytorch
+agentic	claimable	agents;tool-use;agentic tool-use
+FastAPI	claimable	fastapi
+Docker	claimable	docker;containers;containerized
+distributed training	gap	distributed training;multi-gpu;model parallel
+Kubernetes	gap	kubernetes;k8s;orchestration

@@ -1,0 +1,55 @@
+% FICTIONAL SAMPLE resume (persona "Jane Doe") - AI / LLM Engineer variant.
+% Everything here is placeholder; replace with your own. ATS-safe: ASCII hyphens
+% only, no en/em-dashes, no math arrows, single column.
+\documentclass[10pt]{article}
+\usepackage[margin=0.6in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{empty}
+\renewcommand{\labelitemi}{\textbullet}
+\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,topsep=2pt,parsep=0pt}
+\titleformat{\section}{\normalsize\bfseries}{}{0em}{}[\vspace{-6pt}\rule{\linewidth}{0.6pt}]
+\titlespacing{\section}{0pt}{6pt}{4pt}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE \textbf{Jane Doe}} \quad {\small (fictional sample)}\\[3pt]
+  San Jose, CA \textbullet\ jane.doe@example.com \textbullet\ linkedin.com/in/example-janedoe \textbullet\ github.com/example-janedoe
+\end{center}
+
+{\centering \textit{Applied AI / LLM Engineer}\par}
+
+\section*{Experience}
+\textbf{Northwind Labs} \hfill San Jose, CA\\
+\textit{Machine Learning Intern} \hfill Jun 2025 - Sep 2025
+\begin{itemize}
+  \item Built an LLM eval harness (pytest plus a rubric-graded judge) over 300+ prompts; cut manual review time about 60 percent.
+  \item Shipped a retrieval-augmented support bot (FastAPI plus pgvector) that deflected about 25 percent of tier-1 tickets in an A/B test.
+\end{itemize}
+
+\textbf{State University AI Lab} \hfill Anytown, USA\\
+\textit{Undergraduate Researcher} \hfill Jan 2025 - Present
+\begin{itemize}
+  \item Trained and evaluated transformer classifiers on a 40k-example dataset; +7 F1 over a TF-IDF baseline.
+  \item Ran ablations with bootstrapped confidence intervals; co-authoring a workshop paper (under review).
+\end{itemize}
+
+\section*{Projects}
+\textbf{agent-bench} \hfill github.com/example-janedoe/agent-bench
+\begin{itemize}
+  \item Open-source harness that runs multi-step tool-use agents and scores them by pairwise LLM judging; 200+ stars.
+\end{itemize}
+
+\section*{Skills}
+\textbf{AI/ML:} PyTorch, LLM evals, RAG, prompt engineering, agentic tool-use, scikit-learn\\
+\textbf{Languages:} Python, SQL, TypeScript\\
+\textbf{Tools:} Docker, FastAPI, Postgres/pgvector, AWS (S3, EC2), Git
+
+\section*{Education}
+\textbf{State University} \hfill Expected May 2026\\
+B.S. in Computer Science \hfill Anytown, USA
+
+\end{document}

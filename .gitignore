@@ -1,0 +1,15 @@
+*.aux
+*.log
+*.out
+out.txt
+
+# Local resume-fact source sync state (managed by the sync-sources hook / sync-facts skill)
+assets/.sources-status
+assets/.src-*.hash
+assets/.seen-assets
+
+# Local map-sync baselines (managed by /check-map + /sync-docs)
+.claude/.docmap/
+
+# second git-dir for the public repo
+.public.git/
