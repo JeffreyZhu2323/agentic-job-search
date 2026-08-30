@@ -1,6 +1,6 @@
 ---
 name: sync-facts
-description: Reconcile resume/Resume-Facts.md with Jeffrey's ground-truth sources (UCSF research notes + watched GitHub project repos in assets/sources.txt) and with any new file that appears in assets/. Refreshes each source, reviews new files, shows a diff of claimable facts, and writes only what Jeffrey approves. Run after a research or project session, or when a new source doc lands; the resume and outreach skills also offer it automatically when the hook detects a changed source or a new assets file.
+description: Reconcile resume/Resume-Facts.md with Jeffrey's ground-truth sources (UCSF research notes + watched GitHub project repos in assets/sources.txt) and with any new file that appears in assets/. Refreshes each source, reviews new files, shows a diff of claimable facts, and writes only what Jeffrey approves; when an approved fact change belongs on a standing resume, it also proposes the matching base-resume edit (AI / ML-DS variant) and applies it on approval. Run after a research or project session, or when a new source doc lands; the resume and outreach skills also offer it automatically when the hook detects a changed source or a new assets file.
 ---
 
 # Sync Resume-Facts from ground-truth sources
@@ -37,14 +37,19 @@ Each declared source has a baseline hash at `assets/.src-<name>.hash` recording 
    - **Flag** — anything ambiguous, not clearly claimable, or hard to read. Surface it; do not assume.
    Frame each as "worth claiming, and stated this way?" This is the honesty call and it is Jeffrey's. Keep entries honest, specific, and in the phrasing dials.
 4. **Write on approval.** Put only the lines Jeffrey approves into `resume/Resume-Facts.md` (CAN CLAIM section), reworded to match the file's existing style. Nothing unreviewed goes in.
-5. **Record what you reconciled** so the hook stops flagging it. Use the same computation the hook uses (so values match by construction):
+5. **Decide whether the base resumes should change too — propose, don't auto-apply.** `Resume-Facts.md` is the fact inventory; the two base resumes (`resume/resume-ai.tex` = AI / LLM Engineer, `resume/resume-mlds.tex` = ML / DS) are the standing defaults built from those facts. After writing an approved add/update, judge as the recruiting expert (CLAUDE.md Role + phrasing dials) whether it earns a change on a base resume:
+   - **Which variant(s):** match the fact to positioning — an agentic / LLM item → the AI variant; a modeling / statistics item → the ML/DS variant; a broadly strong item → maybe both; a weak or off-thesis item → neither (the facts file can hold more than a resume shows).
+   - **Add vs correct:** if a changed metric already appears on a base resume, correct it there too (never leave a stale number); a genuinely new, resume-worthy fact is a candidate new bullet.
+   - **Constraints:** propose specific bullet text in the file's existing style, keep each variant to **one page**, stay inside the same honesty boundary (nothing the fact doesn't support), and after any edit recompile (`pdflatex resume/<file>.tex`) and confirm it's still one page.
+   Present the proposal and **write only what Jeffrey approves** — his call, exactly like the facts. If nothing clears the bar, say so and touch nothing. When **invoked from another skill** (a mid-tune safety-net reconcile), don't interrupt that flow with base-resume edits — just note a base update may be warranted and leave it to the in-progress tune / Jeffrey.
+6. **Record what you reconciled** so the hook stops flagging it. Use the same computation the hook uses (so values match by construction):
    - **`gdoc` source:** `sha256sum "<localfile>" | cut -d' ' -f1 > assets/.src-<name>.hash`
    - **`github` source:** `bash .claude/hooks/gh-claim-hash.sh <owner/repo> > assets/.src-<name>.hash`
    - **New file:** decide with Jeffrey which it is, then:
      - **Recurring source** (a live doc or repo that will keep changing) — add a row to `assets/sources.txt` (`gdoc` with a `localfile`, or `github`) and baseline it as above. Being a declared `localfile` excludes it from future novelty scans; no seen-entry needed.
      - **Static one-off or not claimable** (a fixed PDF, a reference doc, nothing to claim) — append its path to `assets/.seen-assets` (`echo "assets/<name>" >> assets/.seen-assets`). It won't meaningfully change, so it just needs to stop flagging.
    Do **not** write `assets/.sources-status` — leave that to the hook (writing it here would mask anything you didn't reconcile this run).
-6. **Confirm** to Jeffrey exactly what was added/updated per item, which new files were declared vs marked seen, and anything left flagged for later.
+7. **Confirm** to Jeffrey exactly what was added/updated per item, which new files were declared vs marked seen, any base-resume edits made (or why none), and anything left flagged for later.
 
 ## Guardrails
 - **Honesty boundary — nothing enters `Resume-Facts.md` without Jeffrey's explicit approval.** Surface and suggest; never auto-write an unreviewed claim.
@@ -52,4 +57,4 @@ Each declared source has a baseline hash at `assets/.src-<name>.hash` recording 
 - **`github` metrics can change silently.** A re-run notebook or updated results file shifts a number with no other signal; read the committed metric files carefully and diff against what's in Resume-Facts, don't assume the old number still holds.
 - **Every reviewed new file gets resolved** — declared as a source or appended to `.seen-assets` — even if nothing was claimable, so it stops re-flagging. Never silently leave a reviewed file unrecorded (it would nag every run) and never mark a file seen without actually reviewing it (that hides real material).
 - **Stamp only what you reconciled.** If a source couldn't be fetched, report it and leave its baseline untouched (so it re-prompts next time) rather than stamping a stale state.
-- **Scope:** touches only `resume/Resume-Facts.md`, the per-source baselines (`assets/.src-<name>.hash`), the seen-list (`assets/.seen-assets`), and `assets/sources.txt` (when declaring a new recurring source), plus refreshing local `gdoc` PDFs in place. It does not write `assets/.sources-status`, tune a resume, write a draft, or send anything.
+- **Scope:** touches `resume/Resume-Facts.md`, the per-source baselines (`assets/.src-<name>.hash`), the seen-list (`assets/.seen-assets`), `assets/sources.txt` (when declaring a new recurring source), and — on Jeffrey's approval — the base resumes (`resume/resume-ai.tex` / `resume/resume-mlds.tex`, recompiled) to propagate an approved fact change; plus refreshing local `gdoc` PDFs in place. It does not write `assets/.sources-status`, tune a resume to a specific job description, write a draft, or send anything.
