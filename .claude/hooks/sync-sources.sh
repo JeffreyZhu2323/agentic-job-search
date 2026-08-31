@@ -31,7 +31,14 @@ printf '%s' "$payload" \
   | grep -qE '"skill"[[:space:]]*:[[:space:]]*"(tune-resume|tune-resume-deep|outreach)"' \
   || exit 0
 
-DIR="${CLAUDE_PROJECT_DIR:-.}"
+# Resolve the project root robustly. This file lives at
+# <root>/.claude/hooks/sync-sources.sh, so its own location pins the root
+# without depending on CLAUDE_PROJECT_DIR being exported or the CWD being the
+# project dir (either can be wrong depending on how the harness spawns the
+# hook on Windows). Fall back to CLAUDE_PROJECT_DIR, then CWD, if self-location
+# fails for any reason.
+SELF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." 2>/dev/null && pwd)"
+DIR="${SELF_DIR:-${CLAUDE_PROJECT_DIR:-.}}"
 CONF="$DIR/assets/sources.txt"
 STATUS="$DIR/assets/.sources-status"       # ephemeral: "unchanged" | "changed: <names>" | "error: <names>"
 HELPER="$DIR/.claude/hooks/gh-claim-hash.sh"
