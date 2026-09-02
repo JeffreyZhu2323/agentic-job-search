@@ -11,5 +11,9 @@ assets/.seen-assets
 # Local map-sync baselines (managed by /check-map + /sync-docs)
 .claude/.docmap/
 
+# Track the resumes archive folder, but never commit the personal resumes in it
+data/resumes/*
+!data/resumes/.gitkeep
+
 # second git-dir for the public repo
 .public.git/
