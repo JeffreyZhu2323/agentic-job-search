@@ -1,6 +1,6 @@
 ---
 name: tune-resume-deep
-description: Deep, multi-agent resume tune for dream / high-value companies. Use when the user pastes a specific job posting and wants the heavier, thoroughly-optimized tune (not the fast one-pass `tune-resume`). Generates several strategically distinct full drafts, autonomously judges them via a pairwise tournament + critic panel, runs a shallow refine loop on the winner, then holds an interactive final review with the user; on approval, writes the tuned resume into `companies/<name>/` and logs the application to `data/applications.csv`.
+description: Deep, multi-agent resume tune for dream / high-value companies. Use when the user pastes a specific job posting and wants the heavier, thoroughly-optimized tune (not the fast one-pass `tune-resume`). Generates several strategically distinct full drafts, autonomously judges them via a pairwise tournament + critic panel, runs a shallow refine loop on the winner, then holds an interactive final review with the user; on approval, writes the tuned resume into `companies/<name>/`, archives the submitted resume to the flat store `data/resumes/`, and logs the application to `data/applications.csv`.
 ---
 
 # Deep-Tune Resume to a Job Description
@@ -21,7 +21,7 @@ Act as a tech-recruiting expert running a **deep, high-effort tune** of Jeffrey 
 - `resume/Resume-Facts.md` — truthful inventory; the tuner's ONLY source for claims (CAN CLAIM section).
 - `CLAUDE.md` — positioning priority and phrasing dials.
 
-Read all of these before starting. Use the scratchpad directory for all intermediate drafts; the final files land in `companies/<name>/` (see step 6).
+Read all of these before starting. Use the scratchpad directory for all intermediate drafts; the final files land in `companies/<name>/` (see step 6), with a copy archived to the flat store `data/resumes/` (see step 7).
 
 ## Procedure
 
@@ -90,7 +90,8 @@ After `resume.pdf` is emitted, append one row to `data/applications.csv`:
 - **Read `data/SCHEMA.md` first** and use only its controlled enum values.
 - Confirm the row's fields with Jeffrey during the interactive review (step 5) — company, role, team, location, req URL, priority. **Default assumption: he's applying right now, right off this tune**, so log `status = applied` with today's `date_applied` without asking. Only ask a single either/or if you have reason to think otherwise ("applying now, or is this one for later?"); use `status = to_apply` with a `next_action` / `next_action_date` only if he says later.
 - Fields: next free `app_id`; `source` (usually `cold` or `referral`); `resume_variant` = the base that won (`ai`/`mlds`, or `custom`); `contact_id` if a recruiter/referrer is linked (else blank); `notes` for anything useful. Quote any field containing a comma.
-- Confirm the appended row back to Jeffrey (its `app_id` and key fields).
+- **Archive the submitted resume to the flat store:** copy the emitted `companies/<slug>/resume.pdf` and `resume.tex` into `data/resumes/<app_id>-<slug>-<resume_variant>.pdf` (and `.tex`) — the complete, permanent record of every submitted resume, keyed to `applications.csv` (same convention as `tune-resume`). Deep targets therefore live in both places: the `companies/<slug>/` workspace and the `data/resumes/` archive (the duplicate is fine — a submitted resume is frozen).
+- Confirm the appended row (its `app_id` and key fields) and the archived resume path in `data/resumes/` back to Jeffrey.
 
 ## ATS-safe formatting (verified, non-negotiable)
 - ASCII hyphen `-` only. **No** en/em-dashes (`--`, `—`) — this template extracts them as an invisible soft-hyphen (byte 0xAD).
