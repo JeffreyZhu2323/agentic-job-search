@@ -71,7 +71,7 @@ Present, and **wait for his response** — do not finalize yet:
 - The tuned resume (rendered) and a **diff against the base variant** so he sees exactly what changed from his known-good resume.
 - Which base variant and angle won, and why.
 - The JD keywords surfaced and where they landed.
-- **Anything uncertain** — JD-relevant skills or accomplishments he plausibly has but that aren't confirmed in `Resume-Facts` — surfaced as questions for him to confirm or reject. This is his honesty-control point.
+- **Anything uncertain** — JD-relevant skills or accomplishments he plausibly has but that aren't confirmed in `Resume-Facts` — surfaced as questions for him to confirm or reject. This is his honesty-control point. **Present every item that needs his input as a single continuous numbered list** (`1)`, `2)`, `3)` ...), one self-contained question per line, so he can answer inline by number; consolidate all asks (uncertain skills, accomplishments to surface, core-gap flags) into that one list rather than scattering them through prose or un-numbered sub-bullets.
 - Iterate on his feedback (edits, additions he confirms, cuts) until he says it's good. Add confirmed items to `resume/Resume-Facts.md`.
 
 ### 6. Output on approval — into the company folder
