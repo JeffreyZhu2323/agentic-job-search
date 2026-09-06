@@ -1,6 +1,6 @@
 ---
 name: tune-resume-deep
-description: Deep, multi-agent resume tune for dream / high-value companies. Use when the user pastes a specific job posting and wants the heavier, thoroughly-optimized tune (not the fast one-pass `tune-resume`). Generates several strategically distinct full drafts, autonomously judges them via a pairwise tournament + critic panel, runs a shallow refine loop on the winner, then holds an interactive final review with the user; on approval, writes the tuned resume into `companies/<name>/`, archives the submitted resume to the flat store `data/resumes/`, and logs the application to `data/applications.csv`.
+description: Deep, multi-agent resume tune for dream / high-value companies. Use when the user pastes a specific job posting and wants the heavier, thoroughly-optimized tune (not the fast one-pass `tune-resume`). Generates several strategically distinct full drafts, autonomously judges them via a pairwise tournament + critic panel, runs a shallow refine loop on the winner, then holds an interactive final review with the user; on approval, writes the tuned resume into a per-role workspace `companies/<company>/<role>/`, archives the submitted resume to the flat store `data/resumes/`, and logs the application to `data/applications.csv`.
 ---
 
 # Deep-Tune Resume to a Job Description
@@ -76,12 +76,12 @@ Present, and **wait for his response** — do not finalize yet:
 
 ### 6. Output on approval — into the company folder
 Only once Jeffrey says it's good. Dream targets are archived per-company (NOT the rolling root `resume.pdf`, which is for volume tunes):
-- Pick a company **slug** (lowercase, hyphenated, e.g. `tiktok`; if a company has multiple dream roles, `tiktok-mle`). Create `companies/<slug>/` if it doesn't exist.
-- Save the JD there as `companies/<slug>/jd.md`.
-- Compile the approved source and emit it as **`companies/<slug>/resume.pdf`** (keep the source as `companies/<slug>/resume.tex`).
+- Workspaces are **per-role, nested under the company**: `companies/<company-slug>/<role-slug>/` (both lowercase, hyphenated, e.g. `companies/tiktok/mle/`). This lets multiple roles at one company sit side by side without collision. Create it if it doesn't exist. Company-level material shared across roles (research, comp, interviewers, alumni contacts) belongs at the parent `companies/<company-slug>/` root (e.g. an optional `research.md`), not duplicated per role.
+- Save the JD there as `companies/<company-slug>/<role-slug>/jd.md`.
+- Compile the approved source and emit it as **`companies/<company-slug>/<role-slug>/resume.pdf`** (keep the source as `resume.tex` alongside it).
 - `pdflatex -interaction=nonstopmode -halt-on-error resume.tex` (run in the folder) — fix any error and recompile.
 - **Verify one page:** log says `Output written on ... (1 page`. If it spilled to 2, cut the lowest-value bullet/keyword and recompile.
-- **Extraction sanity check:** `pdftotext companies/<slug>/resume.pdf out.txt`; confirm dates, job title, and key metrics extract as clean ASCII (no stray bytes, no merged numbers).
+- **Extraction sanity check:** `pdftotext companies/<company-slug>/<role-slug>/resume.pdf out.txt`; confirm dates, job title, and key metrics extract as clean ASCII (no stray bytes, no merged numbers).
 - Remove `.aux/.log/.out` and the temp `.txt`, and any intermediate drafts from the scratchpad.
 - Give a suggested submission filename, e.g. `Jeffrey-Zhu-<Role>-Resume.pdf`.
 
@@ -90,7 +90,7 @@ After `resume.pdf` is emitted, append one row to `data/applications.csv`:
 - **Read `data/SCHEMA.md` first** and use only its controlled enum values.
 - Confirm the row's fields with Jeffrey during the interactive review (step 5) — company, role, team, location, req URL, priority. **Default assumption: he's applying right now, right off this tune**, so log `status = applied` with today's `date_applied` without asking. Only ask a single either/or if you have reason to think otherwise ("applying now, or is this one for later?"); use `status = to_apply` with a `next_action` / `next_action_date` only if he says later.
 - Fields: next free `app_id`; `source` (usually `cold` or `referral`); `resume_variant` = the base that won (`ai`/`mlds`, or `custom`); `contact_id` if a recruiter/referrer is linked (else blank); `notes` for anything useful. Quote any field containing a comma.
-- **Archive the submitted resume to the flat store:** copy the emitted `companies/<slug>/resume.pdf` and `resume.tex` into `data/resumes/<app_id>-<slug>-<resume_variant>.pdf` (and `.tex`) — the complete, permanent record of every submitted resume, keyed to `applications.csv` (same convention as `tune-resume`). Deep targets therefore live in both places: the `companies/<slug>/` workspace and the `data/resumes/` archive (the duplicate is fine — a submitted resume is frozen).
+- **Archive the submitted resume to the flat store:** copy the emitted `companies/<company-slug>/<role-slug>/resume.pdf` and `resume.tex` into `data/resumes/<app_id>-<company-slug>-<resume_variant>.pdf` (and `.tex`) — the complete, permanent record of every submitted resume, keyed to `applications.csv` (same convention as `tune-resume`). Deep targets therefore live in both places: the `companies/<company-slug>/<role-slug>/` workspace and the `data/resumes/` archive (the duplicate is fine — a submitted resume is frozen).
 - Confirm the appended row (its `app_id` and key fields) and the archived resume path in `data/resumes/` back to Jeffrey.
 
 ## ATS-safe formatting (verified, non-negotiable)
