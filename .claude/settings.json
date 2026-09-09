@@ -1,5 +1,18 @@
 {
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/sync-sources.sh\"",
+            "shell": "bash",
+            "timeout": 30,
+            "statusMessage": "Checking resume-fact sources for changes..."
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Skill",

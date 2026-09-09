@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# PreToolUse hook for the Skill tool -- ALL resume-fact ground-truth sources.
-# When Jeffrey runs tune-resume / tune-resume-deep / outreach, this does two
+# Source-freshness hook for ALL resume-fact ground-truth sources. Wired to BOTH
+# UserPromptSubmit (catches the /tune-resume, /tune-resume-deep, /outreach slash
+# commands -- they load the skill inline and never call the Skill tool) and
+# PreToolUse/Skill (the programmatic skill-tool path). When Jeffrey runs
+# tune-resume / tune-resume-deep / outreach, this does two
 # things and flags what needs a Resume-Facts reconcile:
 #   1. CHANGE detection: refresh each source in assets/sources.txt (Google Docs
 #      -> exported PDF; GitHub repos -> claim-bearing tree hash) and flag which
@@ -26,9 +29,13 @@
 
 payload=$(cat)
 
-# Only act for the three job-search skills; anything else (incl. sync-facts) is a no-op.
+# Only act when a job-search skill is invoked -- either via the Skill tool
+# (PreToolUse payload: "skill":"...") or as a slash command typed by Jeffrey
+# (UserPromptSubmit payload: "prompt":"/tune-resume..."). The slash-command path
+# is the common one and does NOT call the Skill tool, so matching only the tool
+# payload silently misses it. Anything else (incl. /sync-facts) is a no-op.
 printf '%s' "$payload" \
-  | grep -qE '"skill"[[:space:]]*:[[:space:]]*"(tune-resume|tune-resume-deep|outreach)"' \
+  | grep -qE '"skill"[[:space:]]*:[[:space:]]*"(tune-resume|tune-resume-deep|outreach)"|"prompt"[[:space:]]*:[[:space:]]*"[[:space:]]*/(tune-resume-deep|tune-resume|outreach)' \
   || exit 0
 
 # Resolve the project root robustly. This file lives at
