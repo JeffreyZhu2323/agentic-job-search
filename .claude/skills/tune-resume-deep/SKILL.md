@@ -61,7 +61,7 @@ Judge the drafts thoroughly and pick the winner **without asking the user**:
 
 ### 4. Shallow refine loop (2-3 passes, hard cap)
 On the winning draft only:
-- **Critic panel** (parallel): recruiter-scan, hiring-manager credibility, narrative coherence, and an explicit **over-fit / pandering guard** ("does this still read as a strong general resume, or has it become JD-mirroring?").
+- **Critic panel** (parallel): recruiter-scan, hiring-manager credibility, narrative coherence, an explicit **over-fit / pandering guard** ("does this still read as a strong general resume, or has it become JD-mirroring?"), and a **voice / AI-tell critic** (judged against `resume/voice.md`: "does this read like a specific person wrote it at resume register, or does it carry model tells: buzzword stacking, formulaic parallelism, uniform rhythm, inflated voice?").
 - **Editor** integrates the critiques *and* the runner-up ideas from step 3 coherently (this is where good ideas from other drafts get woven in, by judgment — not copy-paste).
 - **Tuner** applies the edits; re-run hard gates.
 - Stop when hard gates pass, critics raise no new material issues, and edits go cosmetic. **Never exceed 3 passes** — past that is over-fitting.

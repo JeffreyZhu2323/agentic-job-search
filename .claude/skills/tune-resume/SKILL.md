@@ -47,6 +47,7 @@ Act as a tech-recruiting expert tailoring Jeffrey Zhu's resume to a specific job
    - Job title stays exactly **"Software Engineer Intern - AI Agents"** (must match LinkedIn).
 8. **Build a working draft and compile (hold the final export):**
    - Write the tuned source to a working `.tex` (use the scratchpad; don't emit `resume.pdf` yet).
+   - **AI-tell + voice pass (light, scan-and-fix):** reread every line you changed or added against `resume/voice.md` (the full voice spec plus Jeffrey's samples) and fix tells in place (buzzword stacking, formulaic parallelism, dash-as-connector, uniform rhythm, inflated voice). Hold the resume register: plain strong verbs and real specifics, tight and ATS-safe, no casual tone. This is a touch-up on your own edits, not a rewrite of the base bullets.
    - `pdflatex -interaction=nonstopmode -halt-on-error <file>.tex` — fix any error and recompile.
    - **Verify one page:** confirm the log says `Output written on ... (1 page`. If it spilled to 2, cut the lowest-value bullet/keyword and recompile.
    - **Extraction sanity check:** `pdftotext <file>.pdf out.txt` and confirm dates, the job title, and key metrics come out as clean ASCII (no stray bytes, no merged numbers).
