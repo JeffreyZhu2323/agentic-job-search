@@ -25,6 +25,18 @@
             "statusMessage": "Checking resume-fact sources for changes..."
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/voice-lint.py\"",
+            "shell": "bash",
+            "timeout": 15,
+            "statusMessage": "Linting resume prose for AI-writing tells..."
+          }
+        ]
       }
     ]
   }
