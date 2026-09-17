@@ -73,7 +73,21 @@ while IFS='|' read -r type name id localfile _ || [ -n "$type" ]; do
       if curl -sfL "https://docs.google.com/document/d/$id/export?format=pdf" -o "$tmp" \
          && [ -s "$tmp" ] && [ "$(head -c 4 "$tmp")" = "%PDF" ]; then
         mv -f "$tmp" "$pdf"
-        new="$(sha256sum "$pdf" | cut -d' ' -f1)"
+        # Hash the extracted TEXT, not the raw PDF bytes: Google Docs re-stamps
+        # fresh metadata into the PDF container on every export, so sha256(raw
+        # PDF) changes on every download even when the content is identical --
+        # that would flag the source "changed" forever, no matter how often it
+        # is synced. pdftotext output is stable across exports, so a text hash
+        # is genuine content-based change detection (sync-facts stamps the
+        # baseline the same way, so values match by construction). If pdftotext
+        # is missing or yields nothing, treat it as "couldn't check" (errored)
+        # rather than emitting a bogus hash that would falsely read unchanged.
+        txt="$(pdftotext "$pdf" - 2>/dev/null)"
+        if [ -n "$txt" ]; then
+          new="$(printf '%s' "$txt" | sha256sum | cut -d' ' -f1)"
+        else
+          errored="${errored:+$errored, }$name"; continue
+        fi
       else
         rm -f "$tmp"; errored="${errored:+$errored, }$name"; continue
       fi
