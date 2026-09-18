@@ -17,3 +17,8 @@ data/resumes/*
 
 # second git-dir for the public repo
 .public.git/
+
+# Gmail /inbox skill: processed-message watermark (local state) + build caches
+data/.inbox-state
+tools/gmail-mcp/__pycache__/
+# OAuth secrets live in ~/.gmail-mcp/ (outside the repo); never commit them.

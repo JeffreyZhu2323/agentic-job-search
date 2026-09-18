@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "gmail-recruiting": {
+      "command": "uv",
+      "args": ["run", "--script", "tools/gmail-mcp/server.py"]
+    }
+  }
+}
